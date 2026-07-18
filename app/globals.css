@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+@theme {
+  /* AniVault — deep near-black base, one disciplined electric-violet accent */
+  --color-void: #07070c;
+  --color-abyss: #0a0a0f;
+  --color-panel: #10101a;
+  --color-elev: #171724;
+  --color-line: #232334;
+  --color-mist: #8d8da2;
+  --color-fog: #c9c9d6;
+  --color-snow: #f4f4f9;
+  --color-accent: #7c5aff;
+  --color-accent-soft: #a78bff;
+}
+
+@theme inline {
+  --font-display: var(--font-display-src), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-body-src), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+  /* Ambient accent as raw RGB channels — retinted per anime page from cover art */
+  --ambient: 124 90 255;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-abyss);
+  color: var(--color-fog);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-accent) 60%, transparent);
+  color: var(--color-snow);
+}
+
+/* Hide scrollbars on rails while keeping scrollability */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Soft edge fade for horizontal rails */
+.mask-fade-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 28px,
+    black calc(100% - 28px),
+    transparent
+  );
+}
+
+/* Glassmorphic panel */
+.glass {
+  background: rgb(255 255 255 / 0.045);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgb(255 255 255 / 0.08);
+}
+
+/* Ambient glow driven by the per-anime extracted color */
+.ambient-glow {
+  background: radial-gradient(
+    70% 55% at 50% 0%,
+    rgb(var(--ambient) / 0.24),
+    transparent 70%
+  );
+}
+.ambient-ring {
+  box-shadow: 0 0 60px -12px rgb(var(--ambient) / 0.45);
+}
+
+/* Shimmer skeletons */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-elev);
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(255 255 255 / 0.06),
+    transparent
+  );
+  animation: shimmer 1.6s infinite;
+}
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* AniList synopsis HTML */
+.synopsis p {
+  margin-bottom: 0.75em;
+}
+.synopsis i,
+.synopsis em {
+  color: var(--color-mist);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .shimmer::after {
+    animation: none;
+  }
+}
